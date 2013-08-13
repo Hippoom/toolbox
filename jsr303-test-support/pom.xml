@@ -20,6 +20,14 @@
 			<version>4.3.0.Final</version>
 		</dependency>
 
+		<!-- code generation -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>0.12.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<!-- tests -->
 		<dependency>
 			<groupId>junit</groupId>
