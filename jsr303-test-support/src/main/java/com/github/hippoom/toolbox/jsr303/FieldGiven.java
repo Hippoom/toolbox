@@ -6,14 +6,14 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class ReflectedField {
+public class FieldGiven {
 
 	@Getter
 	private String fieldName;
 	@Getter
 	private Object value;
 
-	public ReflectedField(String fieldName, Object value) {
+	public FieldGiven(String fieldName, Object value) {
 		this.fieldName = fieldName;
 		this.value = value;
 	}
