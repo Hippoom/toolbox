@@ -152,7 +152,7 @@ public class ScenariosTests {
 	public void itShouldPassReturnsParametersToGenerateOneTestCaseGivenMultipleFieldsGiven()
 			throws Throwable {
 
-		Collection<Object[]> params = scenarios.itShouldPassGivenVald().build();
+		Collection<Object[]> params = scenarios.itShouldPassGivenValid().build();
 		assertThat(params, hasItem(new Object[] { Passed.class, null,
 				new FieldGiven[] {} }));
 	}

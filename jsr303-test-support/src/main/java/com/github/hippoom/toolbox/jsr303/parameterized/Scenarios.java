@@ -21,7 +21,7 @@ public class Scenarios {
 	/**
 	 * add test that checks if it'll pass given valid values populated
 	 */
-	public Scenarios itShouldPassGivenVald() {
+	public Scenarios itShouldPassGivenValid() {
 		return itShould(pass(), null, givenValid());
 	}
 

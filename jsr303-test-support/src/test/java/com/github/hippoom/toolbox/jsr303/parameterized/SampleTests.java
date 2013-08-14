@@ -28,7 +28,7 @@ public class SampleTests extends ParameterizedValidationTestTemplate<Sample> {
 	@Parameters
 	public static Collection<Object[]> data() {
 		return new Scenarios()
-				.itShouldPassGivenVald()
+				.itShouldPassGivenValid()
 				.itShouldFailFor(NotNull.class, given("notNullField", null))
 				.itShouldFailFor(NotEmpty.class, givenEmpty("notEmptyField"))
 				.itShouldFailFor(NotBlank.class, givenBlank("notBlankField"))
