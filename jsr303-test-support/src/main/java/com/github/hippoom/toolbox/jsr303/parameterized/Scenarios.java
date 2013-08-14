@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.validation.groups.Default;
+
 import com.github.hippoom.toolbox.jsr303.FieldGiven;
 import com.github.hippoom.toolbox.jsr303.Passed;
 
@@ -22,7 +24,7 @@ public class Scenarios {
 	 * add test that checks if it'll pass given valid values populated
 	 */
 	public Scenarios itShouldPassGivenValid() {
-		return itShould(pass(), null, givenValid());
+		return itShould(pass(), new Class<?>[] { Default.class }, givenValid());
 	}
 
 	/**
@@ -30,7 +32,8 @@ public class Scenarios {
 	 */
 	public Scenarios itShouldFailFor(Class<?> expectedConstraint,
 			FieldGiven... fields) {
-		return itShould(failFor(expectedConstraint), null, fields);
+		return itShould(failFor(expectedConstraint),
+				new Class<?>[] { Default.class }, fields);
 	}
 
 	/**

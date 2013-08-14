@@ -13,6 +13,7 @@ import static org.junit.Assert.assertThat;
 import java.util.Collection;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 import org.junit.Test;
 
@@ -50,8 +51,8 @@ public class ScenariosTests {
 		Collection<Object[]> params = scenarios.itShouldFailFor(
 				expectedConstraint, given(fieldName, null)).build();
 
-		assertThat(params, hasItem(new Object[] { expectedConstraint, null,
-				fieldsGiven }));
+		assertThat(params, hasItem(new Object[] { expectedConstraint,
+				new Class<?>[] { Default.class }, fieldsGiven }));
 	}
 
 	@Test
@@ -71,8 +72,8 @@ public class ScenariosTests {
 				given(givenField1.getFieldName(), givenField1.getValue()),
 				and(givenField2.getFieldName(), givenField2.getValue()))
 				.build();
-		assertThat(params, hasItem(new Object[] { expectedConstraint, null,
-				fieldsGiven }));
+		assertThat(params, hasItem(new Object[] { expectedConstraint,
+				new Class<?>[] { Default.class }, fieldsGiven }));
 	}
 
 	@Test
@@ -116,14 +117,14 @@ public class ScenariosTests {
 		Collection<Object[]> params = scenarios.itShouldFailFor(
 				expectedConstraint, givenBlank(fieldName)).build();
 
-		assertThat(params, hasItem(new Object[] { expectedConstraint, null,
-				nullField }));
+		assertThat(params, hasItem(new Object[] { expectedConstraint,
+				new Class<?>[] { Default.class }, nullField }));
 
-		assertThat(params, hasItem(new Object[] { expectedConstraint, null,
-				emptyField }));
+		assertThat(params, hasItem(new Object[] { expectedConstraint,
+				new Class<?>[] { Default.class }, emptyField }));
 
-		assertThat(params, hasItem(new Object[] { expectedConstraint, null,
-				blankField }));
+		assertThat(params, hasItem(new Object[] { expectedConstraint,
+				new Class<?>[] { Default.class }, blankField }));
 	}
 
 	@Test
@@ -141,20 +142,21 @@ public class ScenariosTests {
 		Collection<Object[]> params = scenarios.itShouldFailFor(
 				expectedConstraint, givenEmpty(fieldName)).build();
 
-		assertThat(params, hasItem(new Object[] { expectedConstraint, null,
-				nullField }));
+		assertThat(params, hasItem(new Object[] { expectedConstraint,
+				new Class<?>[] { Default.class }, nullField }));
 
-		assertThat(params, hasItem(new Object[] { expectedConstraint, null,
-				emptyField }));
+		assertThat(params, hasItem(new Object[] { expectedConstraint,
+				new Class<?>[] { Default.class }, emptyField }));
 	}
 
 	@Test
 	public void itShouldPassReturnsParametersToGenerateOneTestCaseGivenMultipleFieldsGiven()
 			throws Throwable {
 
-		Collection<Object[]> params = scenarios.itShouldPassGivenValid().build();
-		assertThat(params, hasItem(new Object[] { Passed.class, null,
-				new FieldGiven[] {} }));
+		Collection<Object[]> params = scenarios.itShouldPassGivenValid()
+				.build();
+		assertThat(params, hasItem(new Object[] { Passed.class,
+				new Class<?>[] { Default.class }, new FieldGiven[] {} }));
 	}
 
 }

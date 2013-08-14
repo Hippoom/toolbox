@@ -9,6 +9,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.groups.Default;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -83,7 +84,8 @@ public abstract class ParameterizedValidationTestTemplate<T> {
 	 * @param expected
 	 *            Which jsr303 annotation you expect
 	 * @param groups
-	 *            Which groups should be validated, null if default
+	 *            Which groups should be validated, new Class<?>[] {
+	 *            Default.class } if default
 	 * @param fieldsGiven
 	 *            filedGiven to pass/break the expected constraint
 	 */
@@ -112,11 +114,7 @@ public abstract class ParameterizedValidationTestTemplate<T> {
 
 	private Set<ConstraintViolation<T>> validate() {
 		Validator validator = getValidator();
-		if (groups == null) {
-			return validator.validate(toBeValidated());
-		} else {
-			return validator.validate(toBeValidated(), groups);
-		}
+		return validator.validate(toBeValidated(), groups);
 	}
 
 	private boolean expectThatItShouldPass() {
