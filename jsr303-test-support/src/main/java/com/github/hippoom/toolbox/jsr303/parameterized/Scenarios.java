@@ -22,7 +22,7 @@ public class Scenarios {
 	 * add test that checks if it'll pass given valid values populated
 	 */
 	public Scenarios itShouldPassGivenVald() {
-		return itShould(pass(), givenValid());
+		return itShould(pass(), null, givenValid());
 	}
 
 	/**
@@ -30,7 +30,15 @@ public class Scenarios {
 	 */
 	public Scenarios itShouldFailFor(Class<?> expectedConstraint,
 			FieldGiven... fields) {
-		return itShould(failFor(expectedConstraint), fields);
+		return itShould(failFor(expectedConstraint), null, fields);
+	}
+
+	/**
+	 * add test(by group) that checks if it'll fail
+	 */
+	public Scenarios itShouldFailFor(Class<?> expectedConstraint,
+			Class<?>[] groups, FieldGiven... fields) {
+		return itShould(failFor(expectedConstraint), groups, fields);
 	}
 
 	/**
@@ -44,9 +52,20 @@ public class Scenarios {
 		return this;
 	}
 
-	private Scenarios itShould(Class<?> expectedConstraint,
+	/**
+	 * add multiple tests(by group) that checks if they'll fail
+	 */
+	public Scenarios itShouldFailFor(Class<?> expectedConstraint,
+			Class<?>[] groups, List<FieldGiven> fields) {
+		for (FieldGiven field : fields) {
+			itShouldFailFor(expectedConstraint, groups, field);
+		}
+		return this;
+	}
+
+	private Scenarios itShould(Class<?> expectedConstraint, Class<?>[] groups,
 			FieldGiven... fields) {
-		this.scenarios.add(scenario(expectedConstraint, fields));
+		this.scenarios.add(scenario(expectedConstraint, groups, fields));
 		return this;
 	}
 
@@ -74,7 +93,7 @@ public class Scenarios {
 
 	/**
 	 * <pre>
-	 * returns three {@link FieldGiven}s, they should break the constraint with null/emtpy/blank.
+	 * returns three {@link FieldGiven}s, they should break the constraint with null/empty/blank.
 	 * </pre>
 	 * 
 	 */
@@ -87,7 +106,7 @@ public class Scenarios {
 
 	/**
 	 * <pre>
-	 * returns two {@link FieldGiven}s, they should break the constraint with null/emtpy.
+	 * returns two {@link FieldGiven}s, they should break the constraint with null/empty.
 	 * </pre>
 	 * 
 	 */
@@ -100,16 +119,21 @@ public class Scenarios {
 		return fields;
 	}
 
+	public static Class<?>[] when(Class<?>... groups) {
+		return groups;
+	}
+
 	private static FieldGiven[] givenValid() {
 		return new FieldGiven[] {};
 	}
 
 	private static Object[] scenario(Class<?> expectedConstraint,
-			FieldGiven... fields) {
-		Object[] parameters = new Object[2];
+			Class<?>[] groups, FieldGiven... fields) {
+		Object[] parameters = new Object[3];
 
 		parameters[0] = expectedConstraint;
-		parameters[1] = fields;
+		parameters[1] = groups;
+		parameters[2] = fields;
 
 		return parameters;
 	}

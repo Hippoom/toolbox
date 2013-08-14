@@ -21,43 +21,45 @@ import com.github.hippoom.toolbox.jsr303.Passed;
 /**
  * 
  * <pre>
- *  This is a template for validation tests.
+ *   This is a template for validation tests.
+ *   
+ *   You could take a look at this example:
+ *   
+ *   public class SampleTests extends ParameterizedValidationTestTemplate&lt;Sample&gt; {
  *  
- *  You could take a look at this example:
+ *  	    private Sample target = new Sample();
  *  
- *  public class SampleTests extends ParameterizedValidationTestTemplate&lt;Sample&gt; {
- * 
- * 	    private Sample target = new Sample();
- * 
- * 	    public SampleTests(Class&lt;?&gt; expected, FieldGiven[] fieldsGiven) {
- * 		    super(expected, fieldsGiven);
- * 	    }
- * 
- * 	    &#064;Parameters
- * 	    public static Collection&lt;Object[]&gt; data() {
- * 	        return new Scenarios()
- * 	            .itShouldPassGivenVald()
- * 	            .itShouldFailFor(NotNull.class, given("notNullField", null))
- * 	            .itShouldFailFor(NotEmpty.class, givenEmpty("notEmptyField"))
- * 	            .itShouldFailFor(NotBlank.class, givenBlank("notBlankField"))
- * 	            .build();
- * 	    }
- * 
- * 	    &#064;Override
- * 	    public Sample toBeValidated() {
- * 		    return target;
- * 	    }
- * 
- * 	    &#064;Override
- * 	    public void populateWithValidValues() {
- * 		    target.setNotNullField("");
- * 		    target.setNotEmptyField(" ");
- * 		    target.setNotBlankField("hello");
- * 	    }
- * 
- * }
- * 
- * You could use {@link Scenarios} for DSL support.
+ *  	    public SampleTests(Class&lt;?&gt; expected, FieldGiven[] fieldsGiven) {
+ *  		    super(expected, fieldsGiven);
+ *  	    }
+ *  
+ *  	    &#064;Parameters
+ *  	    public static Collection&lt;Object[]&gt; data() {
+ *  	        return new Scenarios()
+ *  	            .itShouldPassGivenVald()
+ *  	            .itShouldFailFor(NotNull.class, given("notNullField", null))
+ *  	            .itShouldFailFor(NotEmpty.class, givenEmpty("notEmptyField"))
+ *  	            .itShouldFailFor(NotBlank.class, givenBlank("notBlankField"))
+ *  	            .itShouldFailFor(NotBlank.class, when(Group.class), given("sampleGroupNotBlankField", null))
+ *  	            .itShouldFailFor(NotBlank.class, when(Group.class), givenBlank("notBlankField"))
+ *  	            .build();
+ *  	    }
+ *  
+ *  	    &#064;Override
+ *  	    public Sample toBeValidated() {
+ *  		    return target;
+ *  	    }
+ *  
+ *  	    &#064;Override
+ *  	    public void populateWithValidValues() {
+ *  		    target.setNotNullField("");
+ *  		    target.setNotEmptyField(" ");
+ *  		    target.setNotBlankField("hello");
+ *  	    }
+ *  
+ *  }
+ *  
+ *  You could use {@link Scenarios} for DSL support.
  * 
  * </pre>
  * 
@@ -72,6 +74,7 @@ import com.github.hippoom.toolbox.jsr303.Passed;
 public abstract class ParameterizedValidationTestTemplate<T> {
 
 	private Class<?> expected;
+	private Class<?>[] groups;
 	private FieldGiven[] fieldsGiven;
 
 	/**
@@ -79,13 +82,16 @@ public abstract class ParameterizedValidationTestTemplate<T> {
 	 * 
 	 * @param expected
 	 *            Which jsr303 annotation you expect
+	 * @param groups
+	 *            Which groups should be validated, null if default
 	 * @param fieldsGiven
 	 *            filedGiven to pass/break the expected constraint
 	 */
 	public ParameterizedValidationTestTemplate(Class<?> expected,
-			FieldGiven[] fieldsGiven) {
+			Class<?>[] groups, FieldGiven[] fieldsGiven) {
 		this.fieldsGiven = fieldsGiven;
 		this.expected = expected;
+		this.groups = groups;
 	}
 
 	@Test
@@ -106,9 +112,11 @@ public abstract class ParameterizedValidationTestTemplate<T> {
 
 	private Set<ConstraintViolation<T>> validate() {
 		Validator validator = getValidator();
-		Set<ConstraintViolation<T>> constraintViolations = validator
-				.validate(toBeValidated());
-		return constraintViolations;
+		if (groups == null) {
+			return validator.validate(toBeValidated());
+		} else {
+			return validator.validate(toBeValidated(), groups);
+		}
 	}
 
 	private boolean expectThatItShouldPass() {

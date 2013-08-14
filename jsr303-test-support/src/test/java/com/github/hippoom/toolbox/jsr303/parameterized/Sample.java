@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.github.hippoom.toolbox.jsr303.Group;
+
 public class Sample {
 	@Setter
 	@Getter
@@ -21,7 +23,9 @@ public class Sample {
 	@Getter
 	@NotBlank
 	private String notBlankField;
-
-	
+	@Setter
+	@Getter
+	@NotBlank(groups = Group.class)
+	private String sampleGroupNotBlankField;
 
 }
