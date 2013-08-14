@@ -9,7 +9,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.groups.Default;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,7 @@ import com.github.hippoom.toolbox.jsr303.Passed;
  *  	    &#064;Parameters
  *  	    public static Collection&lt;Object[]&gt; data() {
  *  	        return new Scenarios()
- *  	            .itShouldPassGivenVald()
+ *  	            .itShouldPassGivenValid()
  *  	            .itShouldFailFor(NotNull.class, given("notNullField", null))
  *  	            .itShouldFailFor(NotEmpty.class, givenEmpty("notEmptyField"))
  *  	            .itShouldFailFor(NotBlank.class, givenBlank("notBlankField"))
