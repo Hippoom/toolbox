@@ -15,6 +15,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.github.hippoom.toolbox.jsr303.FieldGiven;
 import com.github.hippoom.toolbox.jsr303.Group;
+import com.github.hippoom.toolbox.jsr303.Sample;
 
 public class SampleTests extends ParameterizedValidationTestTemplate<Sample> {
 

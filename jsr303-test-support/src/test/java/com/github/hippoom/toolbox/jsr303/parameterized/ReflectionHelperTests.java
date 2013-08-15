@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.github.hippoom.toolbox.jsr303.FieldGiven;
+import com.github.hippoom.toolbox.jsr303.Sample;
 import com.github.hippoom.toolbox.jsr303.parameterized.ReflectionHelper;
 
 public class ReflectionHelperTests {
